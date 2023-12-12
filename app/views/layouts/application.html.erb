@@ -8,9 +8,21 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
 
   <body>
-    <%= yield %>
+    <%= render 'home/header' %>
+    <div class="container">
+    <br/>
+      <% if notice %> <%= render 'layouts/alerts' %> <% end %>
+      <br/>
+      <%= yield %>
+    </div>
+
+ 
+      <%= render 'home/footer'%>
+
   </body>
 </html>
