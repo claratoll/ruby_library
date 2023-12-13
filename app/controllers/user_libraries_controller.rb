@@ -6,12 +6,17 @@ class UserLibrariesController < ApplicationController
   end
 
   def create
-    @user_library = current_user.user_libraries.new(book_id: params[:book_id])
+    @user_library = current_user.user_libraries.new(user_library_params)
 
     if @user_library.save
       redirect_to books_path, notice: 'Boken har lagts till i ditt bibliotek!'
     else
-      redirect_to books_path, alert: 'Något gick fel. Försök igen.'
+      redirect_to books_path, notice: 'Något gick fel. Försök igen.'
     end
   end
+
+  def user_library_params
+    params.require(:user_library).permit(:book_id, :status, :rating)
+  end
+
 end
