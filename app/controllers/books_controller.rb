@@ -1,6 +1,9 @@
 class BooksController < ApplicationController
+  before_action :authenticate_user!
+
   def index
     @books = Book.all
+    @user_library = current_user.user_libraries.new
   end
 
   def show
@@ -12,9 +15,9 @@ class BooksController < ApplicationController
   end
 
   def create
-    @book = Book.new(book_params)
+    @book = current_user.books.new(book_params)
 
-    if @book.save
+    if @book.save!
       redirect_to @book
     else
       render :new, status: :unprocessable_entity
