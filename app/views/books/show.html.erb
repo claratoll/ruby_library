@@ -10,3 +10,18 @@
                     turbo_confirm: "Are you sure?"
                   } %></li>
 </ul>
+
+
+<% user_library = current_user.user_libraries.find_by(book: @book) %>
+<%= form_with model: user_library, url: user_library_path(user_library), method: :patch do |f| %>
+  <div class="field">
+    <%= f.label :status %>
+    <%= f.hidden_field :book_id, value: @book.id %>
+    <%= f.hidden_field :rating, value: 1 %>
+    <%= f.select :status, [['att läsa','att_läsa'],['läser','läser'],['läst ut','läst_ut']], selected: @user_library.try(:status), include_blank: true %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Uppdatera status" %>
+  </div>
+<% end %>

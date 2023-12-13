@@ -1,16 +1,29 @@
 <h1>Här hittar du alla böcker som finns tillgängliga i biblioteket, som du kan lägga till i ditt personliga bibliotek. Längst ner finns en knapp för att lägga till nya böcker. </h1>
-<ul>
+<table class="table-fixed border-separate">
+  <thead>
+    <tr class="border">
+      <th>Titel</th>
+      <th>Beskrivning</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
   <% @books.each do |book| %>
-    <li><%= link_to book.title, book %></li>
-      <li><p><%= truncate(book.body, length: 100) %></p></li>
+    <tr class="border">
+      <td><%= link_to book.title, book %></td>
+      <td><%= truncate(book.body, length: 100) %></td>
 
-      <li> <%= form_with model: @user_library do |f| %>
+      <td> <% user_library = current_user.user_libraries.find_by(book: book) || UserLibrary.new %>
+<%= form_with model: user_library, url: user_library.new_record? ? user_libraries_path : user_library_path(user_library), method: user_library.new_record? ? :post : :patch do |f| %>
         <%= f.select :status, [['att läsa','att_läsa'],['läser','läser'],['läst ut','läst_ut']], include_blank: true %>
         <%= f.hidden_field :book_id, value: book.id %>
         <%= f.hidden_field :rating, value: 1 %>
         <%= f.submit "lägg till" %>
-      <% end %></li>
-  <% end %>
-</ul>
+      <% end %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
 
 <%= link_to "Lägg till ny bok", new_book_path %>
