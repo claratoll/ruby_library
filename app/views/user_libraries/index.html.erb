@@ -1,0 +1,68 @@
+<h1>Alla mina böcker</h1>
+
+<table>
+  <tr>
+    <th>Att läsa</th>
+    <th>Läser</th>
+    <th>Har läst</th>
+  </tr>
+  <tr>
+    <td>
+      <ul>
+        <% @user_libraries.each do |user_library| %>
+          <% if user_library.status == "att_läsa" %>
+            <li><%= user_library.book.title %></li>
+          <% end %>
+        <% end %>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <% @user_libraries.each do |user_library| %>
+          <% if user_library.status == "läser" %>
+            <li><%= user_library.book.title %></li>
+          <% end %>
+        <% end %>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <% @user_libraries.each do |user_library| %>
+          <% if user_library.status == "har_läst" %>
+            <li><%= user_library.book.title %></li>
+          <% end %>
+        <% end %>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th>Att läsa</th>
+    <th>Läser</th>
+    <th>Har läst</th>
+  </tr>
+  <tr>
+    <% att_lasa_books = [] %>
+    <% laser_books = [] %>
+    <% har_last_books = [] %>
+    
+    <% @user_libraries.each do |user_library| %>
+      <% case user_library.status %>
+        <% when "att_läsa" %>
+          <% att_lasa_books << user_library.book.title %>
+        <% when "läser" %>
+          <% laser_books << user_library.book.title %>
+        <% when "har_läst" %>
+          <% har_last_books << user_library.book.title %>
+      <% end %>
+    <% end %>
+    <td><ul><% att_lasa_books&.each { |title| %><li><%= title %></li><% } %></ul></td>
+    <td><ul><% laser_books&.each { |title| %><li><%= title %></li><% } %></ul></td>
+    <td><ul><% har_last_books&.each { |title| %><li><%= title %></li><% } %></ul></td>
+  </tr>
+</table>
+
+
+<%= link_to "Alla böcker", books_path %>

@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
   resources :books
+  resources :user_libraries, only: [:index, :create]
+
   get 'home/about'
   root "books#index"
 
